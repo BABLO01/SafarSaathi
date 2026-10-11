@@ -1,0 +1,14 @@
+{
+  "name": "Safar Saathi — Travel Companion",
+  "short_name": "Safar Saathi",
+  "description": "A beautiful travel companion with saved places, trip tools and safety check-ins.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eff8f6",
+  "theme_color": "#0e766e",
+  "icons": [
+    {"src":"./assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

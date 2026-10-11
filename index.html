@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0e766e">
+  <meta name="description" content="Safar Saathi — a beautiful travel companion with saved places, interactive maps, trip tools and safety check-ins.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/icon.svg">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Safar Saathi — Travel Companion</title>
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient ambient-three"></div>
+
+  <header class="topbar glass">
+    <a class="brand" href="#" aria-label="Safar Saathi home" id="brandHome">
+      <img src="./assets/icon.svg" alt="Safar Saathi logo" class="brand-icon" width="44" height="44">
+      <span>
+        <strong>Safar Saathi</strong>
+        <small>Travel • Navigate • Stay connected</small>
+      </span>
+    </a>
+    <div class="top-actions">
+      <span id="networkBadge" class="status-pill"><i></i> Checking</span>
+      <button id="installBtn" class="icon-button" title="Install app" hidden aria-label="Install app">⇩</button>
+      <button id="settingsBtn" class="icon-button" title="Settings" aria-label="Settings">⚙</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="homeView" class="view active">
+      <div class="hero glass">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="pulse"></span> YOUR TRAVEL COMPANION</span>
+          <h1>Where will<br><em>today take you?</em></h1>
+          <p>Plan a little, explore more. Keep your favourite places close, even when your connection wanders off.</p>
+          <div class="hero-actions">
+            <button id="findMeBtn" class="primary-button">◎ Find my location</button>
+            <button id="startTripBtn" class="secondary-button">Start a trip ↗</button>
+          </div>
+          <div class="hero-foot">
+            <span>✦ Made for the journey</span>
+            <span id="locationSummary">Location not shared</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="map-grid"></div>
+          <div class="route route-one"></div>
+          <div class="route route-two"></div>
+          <div class="map-pin pin-a"><span></span></div>
+          <div class="map-pin pin-b"><span></span></div>
+          <div class="mini-compass">N <b>➤</b></div>
+          <div class="float-card">
+            <span class="float-dot"></span>
+            <div><b>Your next stop</b><small>Adventure awaits</small></div>
+            <span>↗</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">READY WHEN YOU ARE</span>
+          <h2>Explore cities</h2>
+        </div>
+        <span class="small-note">Tap a city to open the map</span>
+      </div>
+
+      <div class="city-grid">
+        <button class="city-card karachi glass" data-city="Karachi" style="--delay:0ms">
+          <span class="city-symbol">🌊</span>
+          <span class="city-copy">
+            <b>Karachi</b>
+            <small>Coastlines & city streets</small>
+            <em>Open city map ↗</em>
+          </span>
+          <span class="city-arrow">↗</span>
+          <span class="city-art art-k"><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <button class="city-card hyderabad glass" data-city="Hyderabad" style="--delay:80ms">
+          <span class="city-symbol">🏛️</span>
+          <span class="city-copy">
+            <b>Hyderabad</b>
+            <small>Find your way around</small>
+            <em>Open city map ↗</em>
+          </span>
+          <span class="city-arrow">↗</span>
+          <span class="city-art art-h"><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <button class="city-card moro glass" data-city="Moro" style="--delay:160ms">
+          <span class="city-symbol">🌿</span>
+          <span class="city-copy">
+            <b>Moro</b>
+            <small>Quiet roads & local life</small>
+            <em>Open city map ↗</em>
+          </span>
+          <span class="city-arrow">↗</span>
+          <span class="city-art art-m"><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">YOUR QUICK ACCESS</span>
+          <h2>Travel tools</h2>
+        </div>
+      </div>
+
+      <div class="tools-grid">
+        <button class="tool-card glass" data-open="savedView">
+          <span class="tool-icon mint">⌖</span>
+          <b>Saved places</b>
+          <small>Home, work & favourites</small>
+        </button>
+        <button class="tool-card glass" data-open="tripsView">
+          <span class="tool-icon blue">↗</span>
+          <b>My trips</b>
+          <small>Keep your journey notes</small>
+        </button>
+        <button class="tool-card glass" data-open="safetyView">
+          <span class="tool-icon amber">♡</span>
+          <b>Safar Check</b>
+          <small>Let trusted people know</small>
+        </button>
+        <button class="tool-card glass" data-open="compassView">
+          <span class="tool-icon violet">✥</span>
+          <b>Compass</b>
+          <small>Find your direction</small>
+        </button>
+      </div>
+
+      <div class="tip-card glass">
+        <div class="tip-icon">✦</div>
+        <div>
+          <b>A little travel tip</b>
+          <p>Open a city map while online to explore. GPS works offline after permission. Your saved places and trips stay on this device.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="mapView" class="view">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">FIND YOUR WAY</span>
+          <h1>Explore map</h1>
+          <p>Interactive map powered by OpenStreetMap. Choose a city or search.</p>
+        </div>
+        <span id="mapMode" class="status-pill">Map ready</span>
+      </div>
+
+      <div class="map-toolbar glass">
+        <label class="searchbox">
+          <span>⌕</span>
+          <input id="placeSearch" placeholder="Search a place or address..." autocomplete="off">
+        </label>
+        <select id="citySelect" aria-label="Choose city">
+          <option value="Karachi">Karachi</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Moro">Moro</option>
+        </select>
+        <button id="mapMyLocation" class="primary-button compact">◎ My location</button>
+      </div>
+
+      <div class="map-frame glass">
+        <div id="mapCanvas" class="map-canvas"></div>
+        <div class="map-overlay map-overlay-top">
+          <span class="map-live-dot"></span>
+          <span id="mapCityLabel">Karachi, Pakistan</span>
+          <span class="overlay-divider"></span>
+          <span id="mapNetworkLabel">Online map available</span>
+        </div>
+        <div class="map-overlay map-overlay-bottom">
+          <span>⊕ Interactive map</span>
+          <span>Tiles load when online • GPS works offline</span>
+        </div>
+      </div>
+
+      <div class="map-actions">
+        <button id="routeWalkBtn" class="secondary-button">🚶 Walking route</button>
+        <button id="routeDriveBtn" class="secondary-button">🚗 Driving route</button>
+        <button id="shareLocBtn" class="secondary-button">↗ Share location</button>
+      </div>
+
+      <div class="notice glass">
+        <b>About the map</b>
+        <p>This map uses live OpenStreetMap tiles when you are online. City buttons centre the map on Karachi, Hyderabad or Moro. Your GPS position and saved places work offline. Full offline tile packs are not included in this build.</p>
+      </div>
+    </section>
+
+    <!-- SAVED -->
+    <section id="savedView" class="view">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">YOUR PERSONAL MAP</span>
+          <h1>Saved places</h1>
+          <p>Keep addresses close on this device.</p>
+        </div>
+        <button id="addPlaceBtn" class="primary-button">＋ Add place</button>
+      </div>
+      <div id="savedPlacesList" class="saved-list"></div>
+      <div class="empty-state glass" id="savedEmpty">
+        <span>⌖</span>
+        <h3>Your places, your shortcuts</h3>
+        <p>Save home, work, a favourite café or any address. They stay on this device.</p>
+        <button class="primary-button" id="emptyAddPlace">Save your first place</button>
+      </div>
+    </section>
+
+    <!-- TRIPS -->
+    <section id="tripsView" class="view">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">EVERY JOURNEY COUNTS</span>
+          <h1>My trips</h1>
+          <p>Start a trip, add a note, and keep a local history.</p>
+        </div>
+        <button id="newTripBtn" class="primary-button">＋ New trip</button>
+      </div>
+      <div id="activeTripCard" class="active-trip glass" hidden></div>
+      <div id="tripList" class="trip-list"></div>
+      <div class="empty-state glass" id="tripsEmpty">
+        <span>↗</span>
+        <h3>Your next story starts here</h3>
+        <p>Save trip names, destinations and notes locally on your device.</p>
+        <button class="primary-button" id="emptyNewTrip">Plan a trip</button>
+      </div>
+    </section>
+
+    <!-- SAFETY -->
+    <section id="safetyView" class="view">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">PEACE OF MIND</span>
+          <h1>Safar Check</h1>
+          <p>A gentle check-in system for people you trust.</p>
+        </div>
+      </div>
+      <div class="safety-hero glass">
+        <div class="safety-heart">♡</div>
+        <div>
+          <span class="eyebrow">YOUR CHECK-IN</span>
+          <h2 id="safetyStatus">Let them know you're okay</h2>
+          <p id="safetyDescription">Tap below to record a check-in on this device.</p>
+        </div>
+        <button id="imSafeBtn" class="primary-button">✓ I'm safe</button>
+      </div>
+      <div class="two-col">
+        <div class="settings-card glass">
+          <h3>Check-in schedule</h3>
+          <p>Choose how often you want a reminder to check in.</p>
+          <label class="field-label" for="checkInterval">Check-in interval</label>
+          <select id="checkInterval">
+            <option value="24">Every 24 hours</option>
+            <option value="48">Every 2 days</option>
+            <option value="72">Every 3 days</option>
+          </select>
+          <label class="field-label" for="trustedName">Trusted contact name</label>
+          <input id="trustedName" placeholder="e.g. Family member">
+          <label class="field-label" for="trustedPhone">Trusted contact phone</label>
+          <input id="trustedPhone" type="tel" placeholder="+92...">
+          <button id="saveSafetyBtn" class="secondary-button full">Save safety settings</button>
+        </div>
+        <div class="settings-card glass">
+          <h3>How it works</h3>
+          <ul class="feature-list">
+            <li>✓ Check-ins are saved locally on this device.</li>
+            <li>✓ You can call or message your trusted contact.</li>
+            <li>✓ Missed check-ins are not proof of danger.</li>
+            <li>! Automatic alerts need a shared online backend.</li>
+          </ul>
+          <button id="contactTrustedBtn" class="secondary-button full">Contact trusted person</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPASS -->
+    <section id="compassView" class="view">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">FIND YOUR BEARING</span>
+          <h1>Travel compass</h1>
+          <p>Use your device sensors where supported.</p>
+        </div>
+      </div>
+      <div class="compass-card glass">
+        <div class="compass-dial" id="compassDial">
+          <span class="north">N</span>
+          <span class="east">E</span>
+          <span class="south">S</span>
+          <span class="west">W</span>
+          <div class="compass-needle">▲<i>▼</i></div>
+          <div class="compass-center"></div>
+        </div>
+        <div class="compass-readout">
+          <span>HEADING</span>
+          <strong id="headingValue">—°</strong>
+          <small id="compassHint">Move your device or enable motion access if asked.</small>
+        </div>
+        <button id="enableCompassBtn" class="primary-button">Enable compass</button>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settingsView" class="view">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">MAKE IT YOURS</span>
+          <h1>Settings</h1>
+          <p>Personalize your Safar Saathi experience.</p>
+        </div>
+      </div>
+      <div class="settings-layout">
+        <div class="settings-card glass">
+          <h3>Appearance</h3>
+          <p>Choose the atmosphere that feels right.</p>
+          <div class="theme-options">
+            <button class="theme-choice selected" data-theme="mint">
+              <span class="theme-swatch swatch-mint"></span>
+              <b>Mint glass</b>
+              <small>Soft teal & airy glass</small>
+            </button>
+            <button class="theme-choice" data-theme="night">
+              <span class="theme-swatch swatch-night"></span>
+              <b>Midnight</b>
+              <small>Calm dark travel mode</small>
+            </button>
+            <button class="theme-choice" data-theme="sand">
+              <span class="theme-swatch swatch-sand"></span>
+              <b>Warm light</b>
+              <small>Soft cream & sage</small>
+            </button>
+          </div>
+        </div>
+        <div class="settings-card glass">
+          <h3>App preferences</h3>
+          <label class="field-label" for="languageSelect">Language</label>
+          <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="ur">اردو (Urdu)</option>
+          </select>
+          <div class="setting-row">
+            <div>
+              <b>Motion effects</b>
+              <small>Animated background and subtle transitions</small>
+            </div>
+            <label class="switch">
+              <input id="motionToggle" type="checkbox" checked>
+              <span></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <div>
+              <b>Location permission</b>
+              <small>Needed to show your current GPS position</small>
+            </div>
+            <button id="permissionHelpBtn" class="text-button">How to enable</button>
+          </div>
+        </div>
+        <div class="settings-card glass">
+          <h3>Local data</h3>
+          <p>Saved places, trips and preferences are stored in this browser on this device.</p>
+          <div class="setting-row">
+            <div>
+              <b>Export my data</b>
+              <small>Download a backup JSON file</small>
+            </div>
+            <button id="exportBtn" class="secondary-button compact">Export</button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <b>Import backup</b>
+              <small>Restore a previous JSON backup</small>
+            </div>
+            <label class="secondary-button compact file-label">
+              Import
+              <input type="file" id="importFile" accept="application/json,.json" hidden>
+            </label>
+          </div>
+          <div class="setting-row">
+            <div>
+              <b>Clear local data</b>
+              <small>Remove saved places, trips and safety settings</small>
+            </div>
+            <button id="clearDataBtn" class="danger-button compact">Clear</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav glass" aria-label="Main navigation">
+    <button class="nav-item active" data-view="homeView" aria-label="Home">
+      <span class="nav-icon">⌂</span>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" data-view="mapView" aria-label="Map">
+      <span class="nav-icon">⌖</span>
+      <span>Map</span>
+    </button>
+    <button class="nav-item" data-view="tripsView" aria-label="Trips">
+      <span class="nav-icon">↗</span>
+      <span>Trips</span>
+    </button>
+    <button class="nav-item" data-view="savedView" aria-label="Saved">
+      <span class="nav-icon">★</span>
+      <span>Saved</span>
+    </button>
+    <button class="nav-item" data-view="settingsView" aria-label="Settings">
+      <span class="nav-icon">⚙</span>
+      <span>Settings</span>
+    </button>
+  </nav>
+
+  <!-- DIALOGS -->
+  <dialog id="placeDialog" class="app-dialog glass">
+    <form id="placeForm" method="dialog">
+      <div class="dialog-head">
+        <div>
+          <span class="eyebrow">SAVE FOR LATER</span>
+          <h2 id="placeDialogTitle">Add a place</h2>
+        </div>
+        <button type="button" class="close-dialog" data-close="placeDialog" aria-label="Close">×</button>
+      </div>
+      <input type="hidden" id="placeId">
+      <label class="field-label" for="placeName">Place name</label>
+      <input id="placeName" required placeholder="Home, office, favourite spot...">
+      <label class="field-label" for="placeAddress">Address or location link</label>
+      <textarea id="placeAddress" required rows="3" placeholder="Enter an address or paste a map link"></textarea>
+      <label class="field-label" for="placeCity">City</label>
+      <select id="placeCity">
+        <option>Karachi</option>
+        <option>Hyderabad</option>
+        <option>Moro</option>
+        <option>Other</option>
+      </select>
+      <label class="field-label" for="placeCategory">Category</label>
+      <select id="placeCategory">
+        <option>Favourite</option>
+        <option>Home</option>
+        <option>Work</option>
+        <option>Food</option>
+        <option>Travel</option>
+        <option>Emergency</option>
+      </select>
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" data-close="placeDialog">Cancel</button>
+        <button type="submit" class="primary-button">Save place</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="tripDialog" class="app-dialog glass">
+    <form id="tripForm" method="dialog">
+      <div class="dialog-head">
+        <div>
+          <span class="eyebrow">PLAN YOUR JOURNEY</span>
+          <h2>New trip</h2>
+        </div>
+        <button type="button" class="close-dialog" data-close="tripDialog" aria-label="Close">×</button>
+      </div>
+      <label class="field-label" for="tripName">Trip name</label>
+      <input id="tripName" required placeholder="Weekend in Karachi">
+      <label class="field-label" for="tripDestination">Destination</label>
+      <input id="tripDestination" required placeholder="Where are you going?">
+      <label class="field-label" for="tripCity">City</label>
+      <select id="tripCity">
+        <option>Karachi</option>
+        <option>Hyderabad</option>
+        <option>Moro</option>
+        <option>Other</option>
+      </select>
+      <label class="field-label" for="tripNotes">Notes (optional)</label>
+      <textarea id="tripNotes" rows="3" placeholder="Things to remember..."></textarea>
+      <div class="dialog-actions">
+        <button type="button" class="secondary-button" data-close="tripDialog">Cancel</button>
+        <button type="submit" class="primary-button">Save trip</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <footer class="footer">Made for the road ahead <span>•</span> <b>Developer by Muhammad Osman</b></footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="./app.js"></script>
+</body>
+</html>
